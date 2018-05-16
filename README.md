@@ -1,19 +1,9 @@
 # Typescript Apollo Boilerplate
 
-## Requirements
-
-Gloabl installation
-
-```javascript
-(sudo) npm install -g typescript ts-node tslint nodemon mocha hygen
-npm install
-```
-
-Local installation
+## Installation
 
 ```javascript
 npm install
-npm install --only=dev
 ```
 
 ---
@@ -22,7 +12,13 @@ npm install --only=dev
 
 **Before getting started, rename the '.env.example' file to '.env' and fill in the required values.**
 
-Build & run the project:
+Build the project
+
+```javascript
+npm run build
+```
+
+Run from already build source
 
 ```javascript
 npm start
@@ -34,17 +30,16 @@ Run without building
 npm run start:ts
 ```
 
-Run from already build source
+Build & run the project
 
 ```javascript
-// assuming "npm run build" has already been run
-npm run start:local
+npm run start:clean
 ```
 
 Start local live development server
 
 ```javascript
-nodemon
+npm run start:dev
 ```
 
 ---
@@ -54,8 +49,15 @@ nodemon
 Run tests:
 
 ```javascript
+npm run build
 npm run lint
 npm run test
+```
+
+Run validate (all tests in parallel; same as CI):
+
+```javascript
+npm run validate
 ```
 
 ---
