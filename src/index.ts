@@ -10,8 +10,9 @@ import * as helmet from "helmet";
 
 import authRouter from "@src/router/auth";
 import { expressGraphql, expressJWT } from "@src/router/middleware";
+import { verify } from "jsonwebtoken";
 
-import { graphiqlExpress } from "apollo-server-express";
+import expressPlayground from "graphql-playground-middleware-express";
 import { Server } from "http";
 import { ExecuteFunction, SubscriptionServer } from "subscriptions-transport-ws";
 
@@ -22,22 +23,42 @@ const app: express.Express = express();
 
 app.use(helmet());
 app.use("/auth", authRouter);
-app.use("/graphql", bodyParser.json(), cookieParser(), expressJWT, expressGraphql);
-app.use("/graphiql", graphiqlExpress({
-	endpointURL: "/graphql",
-	subscriptionsEndpoint: `${process.env.APP_WS_URL}/subscriptions`,
-}));
+app.use("/graphql",
+	bodyParser.json(),
+	cookieParser(),
+	expressJWT,
+	(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+		req.error = err;
+		next();
+	},
+	expressGraphql);
+app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
 app.get("/", (req, res) => res.send("Hello World"));
 
-export const server: Server = app.listen(process.env.APP_PORT || 8080, () => {
-	debug("app:express")(`Now listening on port ${process.env.APP_PORT || 8080}`);
+export const server: Server = app.listen(process.env.PORT || 8080, () => {
+	debug("app:express")(`Now listening on port ${process.env.PORT || 8080}`);
 
 	// tslint:disable-next-line:no-unused-expression
 	new SubscriptionServer({
 		execute: execute as ExecuteFunction,
 		subscribe,
 		schema,
-	}, { server, path: "/subscriptions" });
+		onConnect: async (header: any) => {
+			let jwt = "";
+
+			if (header != null && header.Authorization != null) {
+				jwt = header.Authorization.split("Bearer ")[1];
+			}
+
+			return new Promise(
+				(resolve, reject) => verify(
+					jwt,
+					process.env.JWT_SECRET || "",
+					(err: any, data: any) => err ? reject(err) : resolve({ user: data }),
+				),
+			);
+		},
+	}, { server, path: "/graphql" });
 });
 
 export default app;

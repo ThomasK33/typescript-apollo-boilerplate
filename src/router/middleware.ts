@@ -22,6 +22,7 @@ import { ExpressHandler, graphqlExpress } from "apollo-server-express";
 
 export const expressGraphql: ExpressHandler = graphqlExpress((req) => ({
 	schema,
-	context: req !== undefined ? req.user : undefined,
+	context: { req, user: (req !== undefined ? req.user : undefined) },
 	debug: process.env.PRODUCTION === "false",
+	tracing: process.env.PRODUCTION === "false",
 }));
