@@ -7,13 +7,13 @@ import * as cookieParser from "cookie-parser";
 import * as debug from "debug";
 import * as express from "express";
 import * as helmet from "helmet";
+import { Server } from "http";
 
 import authRouter from "@src/router/auth";
 import { expressGraphql, expressJWT } from "@src/router/middleware";
 import { verify } from "jsonwebtoken";
 
 import expressPlayground from "graphql-playground-middleware-express";
-import { Server } from "http";
 import { ExecuteFunction, SubscriptionServer } from "subscriptions-transport-ws";
 
 import { schema } from "gql/graphql";
@@ -32,7 +32,7 @@ app.use("/graphql",
 		next();
 	},
 	expressGraphql);
-app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
+app.get("/playground", expressPlayground({ endpoint: "/graphql", subscriptionEndpoint: "/graphql" }));
 app.get("/", (req, res) => res.send("Hello World"));
 
 export const server: Server = app.listen(process.env.PORT || 8080, () => {
@@ -46,8 +46,12 @@ export const server: Server = app.listen(process.env.PORT || 8080, () => {
 		onConnect: async (header: any) => {
 			let jwt = "";
 
-			if (header != null && header.Authorization != null) {
+			if (header && header.Authorization) {
 				jwt = header.Authorization.split("Bearer ")[1];
+			} else {
+				// Might aswell just throw an error if auth is required to subscribe
+				// throw new Error("Authentication is required to perform this action");
+				return {};
 			}
 
 			return new Promise(

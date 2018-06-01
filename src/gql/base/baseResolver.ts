@@ -6,18 +6,18 @@ export default {
 		version: (rootValue: any, args: { [argName: string]: any; }, context: any, info: GraphQLResolveInfo) => "1.0.0",
 	},
 	Mutation: {
-		version: (rootValue: any, args: { [argName: string]: any; }, context: any, info: GraphQLResolveInfo) => {
+		_base_: (rootValue: any, args: { [argName: string]: any; }, context: any, info: GraphQLResolveInfo) => {
 
-			pubSub.publish("ping", {
-				ping: "pong --- " + (new Date()).toString(),
+			pubSub.publish("_base_", {
+				_base_: "_base_ --- " + (new Date()).toString(),
 			});
 
 			return "1.0.0";
 		},
 	},
 	Subscription: {
-		ping: {
-			subscribe: () => pubSub.asyncIterator("ping"),
+		_base_: {
+			subscribe: () => pubSub.asyncIterator("_base_"),
 		},
 	},
 };

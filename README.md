@@ -67,11 +67,15 @@ npm run validate
 Adding new GraphQL module
 
 ```javascript
+npm run new:module
+// or if hygen is installed globally
 hygen module new
 ```
 
 Adding new GraphQL directive
 
 ```javascript
+npm run new:directive
+// or if hygen is installed globally
 hygen directive new
 ```

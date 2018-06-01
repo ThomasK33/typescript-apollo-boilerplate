@@ -5,10 +5,10 @@ export default `
 	}
 
 	type Mutation {
-		version: String!
+		_base_: String!
 	}
 
 	type Subscription {
-		ping: String
+		_base_: String
 	}
 `;
