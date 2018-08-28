@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  typescript-apollo-boilerplate:
+    image: typescript-apollo-boilerplate
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080
