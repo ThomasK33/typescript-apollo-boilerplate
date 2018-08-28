@@ -1,9 +1,11 @@
 import { GraphQLResolveInfo } from "graphql";
 import { pubSub } from "./pubsub";
 
+import packageJSON = require("@root/package.json");
+
 export default {
 	Query: {
-		version: (rootValue: any, args: { [argName: string]: any; }, context: any, info: GraphQLResolveInfo) => "1.0.0",
+		version: (rootValue: any, args: any, context: any, info: GraphQLResolveInfo) => packageJSON.version || "1.0.0",
 	},
 	Mutation: {
 		_base_: (rootValue: any, args: { [argName: string]: any; }, context: any, info: GraphQLResolveInfo) => {
@@ -12,7 +14,7 @@ export default {
 				_base_: "_base_ --- " + (new Date()).toString(),
 			});
 
-			return "1.0.0";
+			return "_base_";
 		},
 	},
 	Subscription: {

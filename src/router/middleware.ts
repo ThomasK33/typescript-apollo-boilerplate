@@ -1,28 +1,63 @@
 import { Request } from "express";
-import * as express_JWT from "express-jwt";
 
-export const expressJWT = express_JWT({
-	secret: process.env.JWT_SECRET || "",
-	credentialsRequired: false,
-	getToken: (req: Request) => {
-		if (req.headers.authorization && ("" + req.headers.authorization).split(" ")[0] === "Bearer") {
-			return ("" + req.headers.authorization).split(" ")[1];
-		} else if (req.query && req.query.token) {
-			return req.query.token;
-		} else if (req.cookies && req.cookies.auth) {
-			return req.cookies.auth;
-		} else {
-			return null;
+import { IContext } from "@src/definitions/definitions";
+import { schema } from "@src/graphql/graphql";
+import { ApolloServer } from "apollo-server-express";
+import { verify } from "jsonwebtoken";
+
+const onConnect = async (header: any, _webSocket: any, _context: any) => {
+	let jwt = "";
+
+	if (header != null && header.authorization != null) {
+		jwt = header.authorization.split("Bearer ")[1];
+	} else {
+		return {};
+	}
+
+	const payload: any = await new Promise(
+		(resolve, reject) => verify(
+			jwt,
+			process.env.JWT_SECRET || "",
+			(err: any, data: any) => err ? reject(err) : resolve({ user: data }),
+		),
+	);
+
+	return payload;
+};
+
+const context = async ({ req, connection }: { req: Request, connection: any }) => {
+	const resultingContext: IContext = {};
+
+	if (connection != null) {
+		resultingContext.user = connection.context.user;
+	} else {
+		if (req.headers.authorization != null) {
+			const jwt = req.headers.authorization.split("Bearer ")[1];
+
+			const payload: any = await new Promise(
+				(resolve, reject) => verify(
+					jwt,
+					process.env.JWT_SECRET || "",
+					(err: any, data: any) => err ? reject(err) : resolve({ user: data }),
+				),
+			);
+
+			resultingContext.user = payload.user;
 		}
-	},
-});
+	}
 
-import { schema } from "@src/gql/graphql";
-import { ExpressHandler, graphqlExpress } from "apollo-server-express";
+	return resultingContext;
+};
 
-export const expressGraphql: ExpressHandler = graphqlExpress((req) => ({
+export const graphqlServer = new ApolloServer({
 	schema,
-	context: { req, user: (req ? req.user : undefined) },
+	context,
 	debug: process.env.PRODUCTION === "false",
 	tracing: process.env.PRODUCTION === "false",
-}));
+	introspection: true,
+	playground: true,
+	subscriptions: {
+		path: "/graphql",
+		onConnect,
+	},
+});

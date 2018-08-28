@@ -5,11 +5,12 @@
 	"tasks": [
 		{
 			"identifier": "compile",
-			"type": "typescript",
-			"tsconfig": "tsconfig.json",
-			"problemMatcher": [
-				"$tsc"
-			]
+			"type": "npm",
+			"script": "build:clean",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

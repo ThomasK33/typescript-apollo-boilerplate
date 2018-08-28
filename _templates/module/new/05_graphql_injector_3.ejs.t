@@ -1,6 +1,6 @@
 ---
 inject: true
-to: src/gql/graphql.ts
+to: src/graphql/graphql.ts
 after: "typeDefs\\: \\["
 ---
 		<%=module%>TypeDef,

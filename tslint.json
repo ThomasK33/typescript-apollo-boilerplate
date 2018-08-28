@@ -3,6 +3,11 @@
 	"extends": [
 		"tslint:recommended"
 	],
+	"linterOptions": {
+		"exclude": [
+			"package.json"
+		]
+	},
 	"jsRules": {},
 	"rules": {
 		"indent": [
@@ -11,7 +16,10 @@
 		],
 		"ordered-imports": true,
 		"object-literal-sort-keys": false,
-		"await-promise": true,
+		"await-promise": [
+			true,
+			"Thenable"
+		],
 		"curly": [
 			true,
 			"ignore-same-line"
@@ -23,7 +31,14 @@
 			true,
 			20
 		],
-		"eofline": true
+		"eofline": true,
+		"variable-name": [
+			true,
+			"ban-keywords",
+			"check-format",
+			"allow-leading-underscore",
+			"allow-pascal-case"
+		]
 	},
 	"rulesDirectory": []
 }

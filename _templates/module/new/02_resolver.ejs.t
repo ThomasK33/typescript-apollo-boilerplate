@@ -1,9 +1,11 @@
 ---
-to: src/gql/modules/<%=module%>/<%=module%>Resolver.ts
+to: src/graphql/modules/<%=module%>/<%=module%>Resolver.ts
 ---
 
-export default {
+const <%=module%>Resolver = {
 	Query: {},
 	// Mutation: {},
 	// Subscription: {},
 };
+
+export default <%=module%>Resolver;

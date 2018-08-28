@@ -1,5 +1,5 @@
 ---
-to: src/gql/modules/<%=module%>/<%=module%>TypeDef.ts
+to: src/graphql/modules/<%=module%>/<%=module%>TypeDef.ts
 ---
 
 export default `

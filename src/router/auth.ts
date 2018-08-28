@@ -1,5 +1,4 @@
-import { Request, Response, Router } from "express";
-import { sign } from "jsonwebtoken";
+import { Router } from "express";
 
 // TODO: Add auth logic
 

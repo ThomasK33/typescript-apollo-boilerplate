@@ -1,10 +1,25 @@
-import { expect } from "chai";
+import { use } from "chai";
+import chaiAsPromised = require("chai-as-promised");
 import "mocha";
 
-// tslint:disable:no-unused-expression
+// Add promise support to chai
+use(chaiAsPromised);
 
-describe("General test", () => {
-	it("should return true", () => {
-		expect(true).to.be.true;
+// In case of tests not stoping
+// use: wtf.dump();
+import wtf = require("wtfnode");
+wtf.init();
+
+const title = "index";
+
+describe(title, () => {
+	it("should pass first", () => {
+		return true;
 	});
 });
+
+// tslint:disable:no-var-requires
+
+// directives
+
+// resolvers

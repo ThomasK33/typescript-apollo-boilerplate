@@ -1,5 +1,5 @@
 ---
-to: src/gql/directives/<%=directive%>Directive.ts
+to: src/graphql/directives/<%=directive%>Directive.ts
 ---
 
 import { GraphQLResolveInfo } from "graphql";
