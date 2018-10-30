@@ -6,7 +6,8 @@ import * as debug from "debug";
 import * as express from "express";
 import * as helmet from "helmet";
 
-import authRouter from "router/auth";
+import authRouter from "@src/router/auth";
+
 import { graphqlServer } from "router/middleware";
 
 const app: express.Express = express();
@@ -17,6 +18,8 @@ app.use("/auth", authRouter);
 graphqlServer.applyMiddleware({ app });
 
 app.get("/", (req, res) => res.send("Hello World"));
+
+app.use(express.static("public"));
 
 const server = app.listen({ port: process.env.PORT || 8080 }, () => {
 	debug("app:express")(`🚀 Server ready at ${process.env.APP_URL}${graphqlServer.graphqlPath}`);

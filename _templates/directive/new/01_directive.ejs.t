@@ -1,16 +1,13 @@
 ---
-to: src/graphql/directives/<%=directive%>Directive.ts
+to: src/graphql/directives/<%=directive%>/<%=directive%>Directive.ts
 ---
 
-import { GraphQLResolveInfo } from "graphql";
-import { NextResolverFn } from "graphql-tools";
+import { GraphQLEnumValue, GraphQLField } from "graphql";
 
-export default (
-	next: NextResolverFn,
-	src: any,
-	args: { [argName: string]: any; },
-	context: any,
-	info: GraphQLResolveInfo) => {
+import { SchemaDirectiveVisitor } from "graphql-tools";
 
-	return next();
-};
+export default class <%=directive%>Directive extends SchemaDirectiveVisitor {
+	public visitFieldDefinition(field: GraphQLField<any, any>) {
+		// TODO: Add directive field visitor
+	}
+}

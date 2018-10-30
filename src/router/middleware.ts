@@ -1,15 +1,14 @@
 import { Request } from "express";
 
-import { IContext } from "@src/definitions/definitions";
 import { schema } from "@src/graphql/graphql";
 import { ApolloServer } from "apollo-server-express";
 import { verify } from "jsonwebtoken";
 
-const onConnect = async (header: any, _webSocket: any, _context: any) => {
+const onConnect = async (header: any, webSocket: any) => {
 	let jwt = "";
 
-	if (header != null && header.authorization != null) {
-		jwt = header.authorization.split("Bearer ")[1];
+	if (header != null && header.Authorization != null) {
+		jwt = header.Authorization.split("Bearer ")[1];
 	} else {
 		return {};
 	}

@@ -1,6 +1,6 @@
 ---
 inject: true
 to: src/graphql/graphql.ts
-after: "schemaDirectives: \\{"
+after: "directiveResolvers: \\{"
 ---
 		<%=directive%>: <%=directive%>Directive,

@@ -1,5 +1,7 @@
 {
 	"files.associations": { 
-		"*TypeDef.ts": "graphql" 
+		"*TypeDef.ts": "graphql",
+		"*.nycrc": "json",
+		".dockerignore": "gitignore"
 	}
 }

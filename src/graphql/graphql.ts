@@ -16,6 +16,8 @@ export const schema: GraphQLSchema = makeExecutableSchema({
 	resolvers: [
 		baseResolver,
 	],
+	schemaDirectives: {
+	},
 	directiveResolvers: {
 	},
 });
