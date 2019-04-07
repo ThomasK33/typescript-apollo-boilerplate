@@ -3,5 +3,6 @@
 		"*TypeDef.ts": "graphql",
 		"*.nycrc": "json",
 		".dockerignore": "gitignore"
-	}
+	},
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

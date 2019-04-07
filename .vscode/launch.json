@@ -13,7 +13,7 @@
 			"outFiles": [
 				"${workspaceRoot}/dist/src/*"
 			],
-			"preLaunchTask": "compile",
+			"preLaunchTask": "build",
 			"program": "${workspaceRoot}/src/index.ts",
 			"runtimeArgs": [
 				"--nolazy",
@@ -40,7 +40,7 @@
 			"outFiles": [
 				"${workspaceRoot}/dist/src/*"
 			],
-			"preLaunchTask": "compile",
+			"preLaunchTask": "build",
 			"program": "${workspaceRoot}/src/index.ts",
 			"runtimeArgs": [
 				"--nolazy",
