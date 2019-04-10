@@ -25,7 +25,8 @@
 		"coverage": "run-s coverage:report coverage:open",
 		"coverage:check": "nyc check-coverage --lines 95 --functions 95 --branches 95",
 		"coverage:report": "nyc npm run test",
-		"coverage:open": "opn coverage/index.html"
+		"coverage:open": "opn coverage/index.html",
+		"types": "graphql-codegen --config codegen.yml"
 	},
 	"husky": {
 		"hooks": {
@@ -42,6 +43,7 @@
 		"url": "https://github.com/ThomasK33/typescript-apollo-boilerplate/issues"
 	},
 	"devDependencies": {
+		"@graphql-codegen/cli": "^1.0.7",
 		"@types/body-parser": "^1.17.0",
 		"@types/chai": "^4.1.7",
 		"@types/chai-as-promised": "^7.1.0",
@@ -73,7 +75,9 @@
 		"tsconfig-paths": "^3.8.0",
 		"tslint": "^5.15.0",
 		"typescript": "^3.4.2",
-		"wtfnode": "^0.8.0"
+		"wtfnode": "^0.8.0",
+		"@graphql-codegen/typescript": "1.0.7",
+		"@graphql-codegen/typescript-resolvers": "1.0.7"
 	},
 	"dependencies": {
 		"apollo-server-express": "^2.4.8",
