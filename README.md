@@ -15,7 +15,7 @@ npm install
 Build the project
 
 ```javascript
-npm run build
+npm run compile
 ```
 
 Run from already build source
@@ -32,14 +32,10 @@ npm run start:ts
 
 Build & run the project
 
-```javascript
-npm run start:clean
-```
-
 Start local live development server
 
 ```javascript
-npm run start:dev
+npm run dev
 ```
 
 ---
@@ -49,29 +45,7 @@ npm run start:dev
 Run tests:
 
 ```javascript
-npm run build
-npm run lint
+npm run compile
+npm run check
 npm run test
-```
-
-Run validate (all tests in parallel; same as CI):
-
-```javascript
-npm run validate
-```
-
----
-
-## Coding
-
-Adding new GraphQL module
-
-```javascript
-npm run new:module
-```
-
-Adding new GraphQL directive
-
-```javascript
-npm run new:directive
 ```

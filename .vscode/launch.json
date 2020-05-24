@@ -11,9 +11,9 @@
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"outFiles": [
-				"${workspaceRoot}/dist/src/*"
+				"${workspaceRoot}/build/src/*"
 			],
-			"preLaunchTask": "build",
+			"preLaunchTask": "npm: compile",
 			"program": "${workspaceRoot}/src/index.ts",
 			"runtimeArgs": [
 				"--nolazy",
@@ -24,7 +24,8 @@
 			"sourceMaps": true,
 			"stopOnEntry": false,
 			"env": {
-				"TS_NODE_PROJECT": "dist/"
+        "DEBUG": "app::*",
+				"TS_NODE_PROJECT": "build/"
 			}
 		},
 		{
@@ -35,12 +36,12 @@
 			"cwd": "${workspaceRoot}",
 			"env": {
 				"DEBUG": "*",
-				"TS_NODE_PROJECT": "dist/"
+				"TS_NODE_PROJECT": "build/"
 			},
 			"outFiles": [
-				"${workspaceRoot}/dist/src/*"
+				"${workspaceRoot}/build/src/*"
 			],
-			"preLaunchTask": "build",
+			"preLaunchTask": "npm: compile",
 			"program": "${workspaceRoot}/src/index.ts",
 			"runtimeArgs": [
 				"--nolazy",

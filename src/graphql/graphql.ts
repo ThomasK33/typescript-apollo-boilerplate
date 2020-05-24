@@ -1,23 +1,36 @@
-import { GraphQLSchema } from "graphql";
-import { makeExecutableSchema } from "graphql-tools";
+import { ApolloServer } from "apollo-server-express";
+import { injectable } from "inversify";
+import { verifyToken } from "@src/util/jwt";
+import { schema } from "./schemaLoader";
 
-// Type def imports
-import baseTypeDef from "./base/baseTypeDef";
+@injectable()
+export class GraphQL {
+	server() {
+		const server = new ApolloServer({
+			tracing: process.env.NODE_ENV !== "production",
+			schema,
+			async context({ req, connection }) {
+				try {
+					let token = "";
+					if (req) {
+						token = req.headers.authorization.split("Bearer ")[1];
+					}
 
-// Resolver imports
-import baseResolver from "./base/baseResolver";
+					if (connection) {
+						token = connection.context.Authorization.split(
+							"Bearer ",
+						)[1];
+					}
 
-// Directive imports
+					const user = await verifyToken(token);
 
-export const schema: GraphQLSchema = makeExecutableSchema({
-	typeDefs: [
-		baseTypeDef,
-	],
-	resolvers: [
-		baseResolver,
-	],
-	schemaDirectives: {
-	},
-	directiveResolvers: {
-	},
-});
+					return { user };
+				} catch (e) {
+					return {};
+				}
+			},
+		});
+
+		return server;
+	}
+}

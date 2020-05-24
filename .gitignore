@@ -103,3 +103,4 @@ typings/
 .env
 package
 dist
+build

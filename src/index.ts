@@ -2,29 +2,42 @@ import * as dotenv from "dotenv";
 import * as dotenvExpand from "dotenv-expand";
 dotenvExpand(dotenv.config());
 
+import { container } from "./inversify.config";
+import { GraphQL } from "./graphql/graphql";
 import * as debug from "debug";
+
+import { OpenAPIDocs } from "./services/openapidocs";
+
 import * as express from "express";
-import * as helmet from "helmet";
+import * as bodyParser from "body-parser";
 
-import authRouter from "@src/router/auth";
+const app = express();
+app.use(bodyParser.json());
 
-import { graphqlServer } from "router/middleware";
+const graphQL = container.get(GraphQL);
+const graphQLServer = graphQL.server();
+graphQLServer.applyMiddleware({ app, path: "/graphql" });
 
-const app: express.Express = express();
+const openAPI = container.get(OpenAPIDocs);
+openAPI.applyMiddleware({ app, apiPath: "/api", docsPath: "/docs" });
 
-app.use(helmet());
-app.use("/auth", authRouter);
+const server = app.listen(
+	{ port: parseInt(process.env.MY_PORT ?? "8080", 10) },
+	() => {
+		const address = server.address();
 
-graphqlServer.applyMiddleware({ app });
+		if (address instanceof Object) {
+			debug("app::index")(
+				`🚀  Server ready at http://localhost:${address.port}${graphQLServer.graphqlPath}`,
+			);
+		}
 
-app.get("/", (req, res) => res.send("Hello World"));
+		if (address instanceof String) {
+			debug("app::index")(`🚀  Server ready at ${address}`);
+		}
 
-app.use(express.static("public"));
-
-const server = app.listen({ port: process.env.PORT || 8080 }, () => {
-	debug("app:express")(`🚀 Server ready at ${process.env.APP_URL}${graphqlServer.graphqlPath}`);
-});
-
-graphqlServer.installSubscriptionHandlers(server);
-
-export default app;
+		if (!address) {
+			debug("app::index")("🚀  Server ready");
+		}
+	},
+);

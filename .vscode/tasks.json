@@ -3,14 +3,16 @@
 	// for the documentation about the tasks.json format
 	"version": "2.0.0",
 	"tasks": [
-		{
-			"label": "build",
-			"type": "npm",
-			"script": "build:clean",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		}
-	]
+    {
+      "type": "npm",
+      "script": "compile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "label": "npm: compile",
+      "detail": "tsc -p . && cpx tsconfig.json build/ && cpx package.json build/"
+    }
+  ]
 }
